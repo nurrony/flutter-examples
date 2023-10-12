@@ -17,7 +17,7 @@ class MyGetHttpData extends StatefulWidget {
 
 // Create the state for our stateful widget
 class MyGetHttpDataState extends State<MyGetHttpData> {
-  final String url = "https://swapi.co/api/people";
+  final String url = "https://swapi.dev/api/people";
   List data;
 
   // Function to get the JSON data
@@ -35,8 +35,14 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
     setState(() {
       // Get the JSON data
       var dataConvertedToJSON = json.decode(response.body);
-      // Extract the required part and assign it to the global variable named data
-      data = dataConvertedToJSON['results'];
+      try {
+        if (dataConvertedToJSON.statusCode == 200) {
+          // Extract the required part and assign it to the global variable named data
+          data = dataConvertedToJSON['results'];
+        }
+      } catch (e) {
+        print(dataConvertedToJSON.statusCode);
+      }
     });
 
     return "Successfull";
